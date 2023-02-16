@@ -6,9 +6,9 @@ set -e
 set -u
 
 # Clean any previous build artifacts
-make clean
+# make clean
 # Compile application using native compilation
-make
+# make
 
 NUMFILES=10
 WRITESTR=AELD_IS_FUN

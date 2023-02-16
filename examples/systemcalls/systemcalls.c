@@ -1,5 +1,13 @@
 #include "systemcalls.h"
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+
 /**
  * @param cmd the command to execute with system()
  * @return true if the command in @param cmd was executed
@@ -16,8 +24,7 @@ bool do_system(const char *cmd)
  *   and return a boolean true if the system() call completed with success
  *   or false() if it returned a failure
 */
-
-    return true;
+    return system(cmd) != -1;
 }
 
 /**
@@ -58,10 +65,26 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
+    int status;
+    int childPid;
+    int ok = false;
+    if ((childPid = fork()) == 0) {
+        // I'm the child
+        execv(command[0], command);
+        // If we can't start the binary, we return an error
+        exit(1);
+    } else {
+        // I'm the parent
+        if (childPid > 0) {
+            if (waitpid(childPid, &status, 0) == childPid) {
+                ok = WIFEXITED(status) && (WEXITSTATUS(status) == 0);
+            }
+        }
+    }
 
     va_end(args);
 
-    return true;
+    return ok;
 }
 
 /**
@@ -93,7 +116,31 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
  *
 */
 
+    int status;
+    int childPid;
+    int ok = false;
+    if ((childPid = fork()) == 0) {
+        // I'm the child
+
+        int outFd = open(outputfile, O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG | S_IRWXO);
+        if (dup2(outFd, 1) != 1)
+        {   // error
+            exit(1);
+        }
+        
+        execv(command[0], command);
+        // If we can't start the binary, we return an error
+        exit(1);
+    } else {
+        // I'm the parent
+        if (childPid > 0) {
+            if (waitpid(childPid, &status, 0) == childPid) {
+                ok = WIFEXITED(status) && (WEXITSTATUS(status) == 0);
+            }
+        }
+    }
+
     va_end(args);
 
-    return true;
+    return ok;
 }
