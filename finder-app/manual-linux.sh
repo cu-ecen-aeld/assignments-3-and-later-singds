@@ -11,8 +11,7 @@ KERNEL_VERSION=v5.1.10
 BUSYBOX_VERSION=1_33_1
 FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
-# CROSS_COMPILE=aarch64-none-linux-gnu-
-CROSS_COMPILE=/home/giaco/buildroot-course/toolchain/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
+CROSS_COMPILE=aarch64-none-linux-gnu-
 MK="make ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE}"
 
 # To successfully run the script you have to install the following packages:
