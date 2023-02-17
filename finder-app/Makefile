@@ -1,7 +1,7 @@
 
 
 all: writer.c
-	${CROSS_COMPILE}gcc writer.c -o writer
+	$(CROSS_COMPILE)gcc writer.c -o writer
 
 .PHONY: clean
 clean:

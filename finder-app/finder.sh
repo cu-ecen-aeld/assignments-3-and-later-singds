@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ $# -ne 2 ]; then
     echo "error: Two parameters must be provided"
