@@ -89,7 +89,8 @@ ${CROSS_COMPILE}readelf -a bin/busybox | grep "program interpreter"
 ${CROSS_COMPILE}readelf -a bin/busybox | grep "Shared library"
 
 # TODO: Add library dependencies to rootfs
-TOOLCHAIN_PATH=${CROSS_COMPILE%/*/*}
+# TOOLCHAIN_PATH=${CROSS_COMPILE%/*/*}
+TOOLCHAIN_PATH=/usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu
 cp ${TOOLCHAIN_PATH}/aarch64-none-linux-gnu/libc/lib64/libm.so.6 ./lib64
 cp ${TOOLCHAIN_PATH}/aarch64-none-linux-gnu/libc/lib64/libresolv.so.2 ./lib64
 cp ${TOOLCHAIN_PATH}/aarch64-none-linux-gnu/libc/lib64/libc.so.6 ./lib64
