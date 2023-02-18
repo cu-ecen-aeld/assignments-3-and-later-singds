@@ -1,7 +1,10 @@
-
+CC=gcc
+CFLAGS=
+INCLUDES=
+LDFLAGS=
 
 all: writer.c
-	$(CROSS_COMPILE)gcc writer.c -o writer
+	$(CC) $(CFLAGS) $(INCLUDES) writer.c -o writer $(LDFLAGS)
 
 .PHONY: clean
 clean:
